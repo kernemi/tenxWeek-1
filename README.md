@@ -1,30 +1,130 @@
-# Predicting Price Moves with News Sentiment - Week 1 (Task 1)
+# Predicting Price Moves with News Sentiment - Week 1 
+## Task 1
+**Author** Kernemi Kidane
+**Branches:**  
+- `task-1`: Environment setup, GitHub workflow, project structure  
+- `task-2`: Quantitative analysis of stock prices  
 
-Author: Kernemi Kidane
+## Overview
 
-This repo holds Task-1 artifacts: environment setup, basic project structure, and CI skeleton.
+This repository implements the first two tasks of the financial news sentiment project:
 
+1. **Task-1:** Set up Python environment, GitHub repo, and basic CI skeleton.  
+2. **Task-2:** Load stock price data, compute technical indicators (SMA, RSI, MACD), visualize results, and prepare the dataset for correlation analysis (Task-3).  
+
+Indicators are computed with TA-Lib if installed; otherwise, a pandas fallback is used.  
+
+## Project Structure
+```
+src/
+├── init.py
+├── finance/
+│ ├── init.py
+│ ├── loader.py # Load and clean stock CSV data
+│ ├── indicators.py # SMA, RSI, MACD calculations
+│ └── visualize.py # Plotting utilities
+
+scripts/
+├── sample_task2_analysis.py # Example workflow: load → indicators → plot
+
+tests/
+├── test_sample.py
+├── test_indicators.py # Unit tests for SMA, RSI, MACD
+
+notebooks/
+└── task2_stock_EDA.ipynb # EDA and exploratory notebook
+
+.github/workflows/
+└── unittests.yml # CI pipeline skeleton
+
+.vscode/settings.json
+requirements.txt
+README.md
+.gitignore
+```
 ## Quickstart
 
-1. Create virtual environment:
-   - Unix: python -m venv .venv && source .venv/bin/activate
-   - Windows: python -m venv .venv && .venv\Scripts\activate
+### 1. Setup environment
 
-2. Install dependencies:
-   pip install -r requirements.txt
+**Unix/macOS**
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+```windows
+python -m venv .venv
+.venv\Scripts\activate
+```
+### 2. install dependencies
+```
+pip install -r requirements.txt
+```
+### 3. run sample analysis and unit tests
+```
+python scripts/sample_task2_analysis.py
+pytest -q
+```
 
-3. Run tests:
-   pytest -q
+## Task2-Public Functions (with docstrings)
+-src/finance/loader.py
+```def load_stock_data(path: str) -> pd.DataFrame:
+    """
+    Load stock price data CSV and clean/normalize dates.
 
-# week1(Task2) Quantitative Analysis of Stock Prices
-Branch: task-2
+    Args:
+        path (str): Path to CSV file containing OHLCV data.
 
-Task-2 focuses on loading stock price data, computing technical indicators, and visualizing results to support financial analysis. Indicators include:
+    Returns:
+        pd.DataFrame: Cleaned DataFrame with datetime index in UTC and columns: date, open, high, low, close, volume.
+    """
+```
+-src/finance/indicators.py
+```
+def sma(df: pd.DataFrame, period: int = 20) -> pd.DataFrame:
+    """Compute Simple Moving Average (SMA) on closing prices."""
+    
+def rsi(df: pd.DataFrame, period: int = 14) -> pd.DataFrame:
+    """Compute Relative Strength Index (RSI) on closing prices."""
+    
+def macd(df: pd.DataFrame) -> pd.DataFrame:
+    """Compute MACD line, signal line, and histogram for closing prices."""
+```
+-src/finance/visualize.py
+```
+def plot_price_with_sma(df: pd.DataFrame, period: int = 20):
+    """Plot closing prices with SMA overlay."""
 
-SMA (Simple Moving Average)
+def plot_rsi(df: pd.DataFrame, period: int = 14):
+    """Plot RSI indicator over time with overbought/oversold lines."""
 
-RSI (Relative Strength Index)
+def plot_macd(df: pd.DataFrame):
+    """Plot MACD, signal line, and histogram."""
+```
+## Current Progress
+Task-1: Completed
+- Repository structure, venv setup, GitHub workflow
+- Basic pytest skeleton, README
+Task-2: Partial
+- Stock CSV loading & cleaning implemented
+- SMA, RSI, MACD calculations implemented (pandas fallback works)
+- Visualization utilities ready
+- Unit tests for indicators completed
+- Sample notebook and analysis script implemented
+Next Steps
+- Run indicators across full universe of tickers
+- Generate plots for multiple tickers
+- Prepare dataset for sentiment correlation analysis (Task-3)
+  
+## Example usage
+```
+from finance.loader import load_stock_data
+from finance.indicators import sma, rsi, macd
+from finance.visualize import plot_price_with_sma
 
-MACD (Moving Average Convergence Divergence)
+df = load_stock_data("your path")
+df = sma(df, 20)
+df = rsi(df, 14)
+df = macd(df)
 
-This work builds on Task-1’s project structure and prepares the dataset for correlation analysis in Task-3.
+plot_price_with_sma(df, 20).show()
+```
