@@ -104,6 +104,7 @@ def plot_macd(df: pd.DataFrame):
 Task-1: Completed
 - Repository structure, venv setup, GitHub workflow
 - Basic pytest skeleton, README
+
 Task-2: Partial
 - Stock CSV loading & cleaning implemented
 - SMA, RSI, MACD calculations implemented (pandas fallback works)
