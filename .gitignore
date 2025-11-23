@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+.env
+.venv
+.venv*/
+venv/
+ENV/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter
+.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/*
+
+# Data
+data/
+*.csv
+*.parquet
+
+# Coverage
+htmlcov/
+.coverage
