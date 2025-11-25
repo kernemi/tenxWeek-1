@@ -3,14 +3,15 @@
 **Author** Kernemi Kidane
 **Branches:**  
 - `task-1`: Environment setup, GitHub workflow, project structure  
-- `task-2`: Quantitative analysis of stock prices  
+- `task-2`: Quantitative analysis of stock prices
+- `task-2`: Sentiment analysis & correlation with stock returns   
 
 ## Overview
 
 This repository implements the first two tasks of the financial news sentiment project:
 
 1. **Task-1:** Set up Python environment, GitHub repo, and basic CI skeleton.  
-2. **Task-2:** Load stock price data, compute technical indicators (SMA, RSI, MACD), visualize results, and prepare the dataset for correlation analysis (Task-3).  
+2. **Task-2:** Load stock price data, compute technical indicators (SMA, RSI, MACD), visualize results, and prepare the dataset for correlation analysis (Task-3).  **Task-3:** Score financial news headlines, aggregate daily sentiment, compute daily percentage returns, and calculate Pearson and Spearman correlations between sentiment and returns.
 
 Indicators are computed with TA-Lib if installed; otherwise, a pandas fallback is used.  
 
@@ -23,7 +24,7 @@ src/
 │ ├── loader.py # Load and clean stock CSV data
 │ ├── indicators.py # SMA, RSI, MACD calculations
 │ └── visualize.py # Plotting utilities
-
+│ └── sentiment.py       # Sentiment scoring & aggregation (Task-3)
 scripts/
 ├── sample_task2_analysis.py # Example workflow: load → indicators → plot
 
@@ -33,6 +34,7 @@ tests/
 
 notebooks/
 └── task2_stock_EDA.ipynb # EDA and exploratory notebook
+└── task3_sentiment_corr.ipynb # Sentiment correlation analysis
 
 .github/workflows/
 └── unittests.yml # CI pipeline skeleton
@@ -100,22 +102,18 @@ def plot_rsi(df: pd.DataFrame, period: int = 14):
 def plot_macd(df: pd.DataFrame):
     """Plot MACD, signal line, and histogram."""
 ```
-## Current Progress
-Task-1: Completed
-- Repository structure, venv setup, GitHub workflow
-- Basic pytest skeleton, README
+## Sentiment & Correlation (Task-3)
+```
+# src/finance/sentiment.py
+def compute_vader_sentiment(df, text_col='headline'): ...
+def compute_transformer_sentiment(df, text_col='headline'): ...
+def aggregate_daily_sentiment(df, date_col='date_utc_date'): ...
 
-Task-2: Partial
-- Stock CSV loading & cleaning implemented
-- SMA, RSI, MACD calculations implemented (pandas fallback works)
-- Visualization utilities ready
-- Unit tests for indicators completed
-- Sample notebook and analysis script implemented
-Next Steps
-- Run indicators across full universe of tickers
-- Generate plots for multiple tickers
-- Prepare dataset for sentiment correlation analysis (Task-3)
-  
+# src/correlation/compute.py
+def compute_daily_returns(df, close_col='Close'): ...
+def merge_sentiment_returns(sentiment_df, stock_df, date_col='date_utc_date', ticker_col='stock'): ...
+def compute_correlations(df, sentiment_cols, return_col='daily_return'): ...
+```
 ## Example usage
 ```
 from finance.loader import load_stock_data
